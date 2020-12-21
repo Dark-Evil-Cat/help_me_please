@@ -1,0 +1,21 @@
+{% extends "Test/base.html" %}
+
+{% block content %}
+<!-- Blog Post -->
+        {% for post in posts %}
+          <div class="card mb-4">
+            <div class="card-body">
+              <h2 class="card-title"><a href={% url "info" post.author.username %}> {{ post.author.get_full_name }} </a></h2>
+              <p class="card-text">{{ post.text_public|linebreaksbr }}</p>
+            </div>
+            <div class="card-footer text-muted">
+              {{ post.pub_date| date:"d M Y" }}
+              {% if post.group %}
+              <strong> <a href={% url "group" post.group %}>{{post.group}}</a></strong>
+              {% endif %}
+            </div>
+          </div>
+        {% empty %}
+            <p>Список пуст</p>
+        {% endfor %}
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends "Test/base.html" %}
+
+
+{% block content %}
+      <!-- Blog Entries Column -->
+      <div class="col-md-8">
+
+        <h1 class="my-4">Главная страница.
+          <small>Недавние посты:</small>
+        </h1>
+
+        <!-- Blog Post -->
+        {% for post in posts %}
+          <div class="card mb-4">
+            <div class="card-body">
+              <h2 class="card-title"><a href={% url "info" post.author.username %}> {{ post.author.get_full_name }} </a></h2>
+              <p class="card-text">{{ post.text_public|linebreaksbr }}</p>
+              <a href="" class="btn btn-primary">Просмотреть пост</a>
+              {% if user.username == post.author.username %}
+              <a href="" class="btn btn-primary">Изменить запись </a>
+              {% endif %}
+            </div>
+            <div class="card-footer text-muted">
+              {{ post.pub_date| date:"d M Y" }}
+              {% if post.group %}
+              <strong> <a href={% url "group" post.group %}>{{post.group}}</a></strong>
+              {% endif %}
+            </div>
+          </div>
+        {% empty %}
+            <p>Список пуст</p>
+        {% endfor %}
+
+        <!-- Pagination -->
+        <ul class="pagination justify-content-center mb-4">
+          <li class="page-item">
+            <a class="page-link" href="#">&larr; Older</a>
+          </li>
+          <li class="page-item disabled">
+            <a class="page-link" href="#">Newer &rarr;</a>
+          </li>
+        </ul>
+      </div>
+      <!-- Sidebar Widgets Column -->
+      <div class="col-md-4">
+
+
+        <!-- Categories Widget -->
+        <div class="card my-4">
+          <h5 class="card-header">Группы: {{groups.count}}</h5>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-6">
+                <ul class="list-unstyled mb-0">
+                  {% for title in groups %}
+                  <li>
+                    <a href={% url "group" title %}>{{title}}</a>
+                  </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Side Widget -->
+        <div class="card my-4">
+          <h5 class="card-header">Side Widget</h5>
+          <div class="card-body">
+            You can put anything you want inside of these side widgets. They are easy to use, and feature the new Bootstrap 4
+            card containers!
+          </div>
+        </div>
+
+{% endblock %}

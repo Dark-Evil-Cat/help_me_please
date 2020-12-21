@@ -2,6 +2,15 @@ from django.db import models
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
+# username;
+# password;
+# email;
+# first_name;
+# last_name.
+
+
+# class ProfileUser(User):
+#     description = models.TextField(verbose_name='Описание', blank=True, null=True)
 
 
 class Group(models.Model):

@@ -1,0 +1,54 @@
+{% extends "Test/base.html" %}
+{% block title %} Профиль {{ author.get_full_name }} {% endblock %}
+{% block content %}
+        <!-- Portfolio Section-->
+<div class="container">
+    <!-- Portfolio Section Heading-->
+    <h2 class="page-section-heading text-center text-uppercase text-secondary mb-5 row justify-content-center">
+        ПРОФИЛЬ</h2>
+</div>
+<div class="container">
+    <!-- About Section-->
+    <section class="page-section bg-dark text-white mb-5" id="about">
+        <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
+        <div class="container">
+
+            <div class="card-body">
+<h2 class="p-2 text-white text-center text-uppercase mb-2"> {{ author.get_full_name }} </h2>
+                <!-- About Section Content-->
+                <div class="row">
+
+                    <p class="lead text-center mb-5">{% if PS %} {{ PS }} {% endif %}</p>
+                </div>
+                {% if user.username == author.username %}
+                <h5 class="page-section-heading text-center text-uppercase text-white ">
+                    <a class="p-2 text-white" href="">Новая запись</a>
+                    <a class="p-2 text-white " href="">Изменить пароль</a>
+                    <a class="p-2 text-white" href="">Выйти</a>
+                </h5>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    <!-- Blog Post -->
+        {% for posts in post %}
+          <div class="card mb-4">
+            <div class="card-body">
+              <h2 class="card-title">{{ posts.author.get_full_name }}</h2>
+              <p class="card-text">{{ posts.text_public|linebreaksbr }}</p>
+                {% if user.username == author.username %}
+              <a href="#" class="btn btn-primary">Изменить запись</a>
+                {% endif %}
+                <a href="#" class="btn btn-primary">Просмотреть пост</a>
+            </div>
+            <div class="card-footer text-muted">
+              {{ posts.pub_date| date:"d M Y" }}
+              {% if posts.group %}
+                <strong> <a href={% url "group" posts.group %}>{{posts.group}}</a></strong>
+              {% endif %}
+            </div>
+          </div>
+        {% empty %}
+            <p>Постов нет</p>
+        {% endfor %}
+    {% endblock %}
